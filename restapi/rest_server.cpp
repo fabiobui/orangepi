@@ -60,7 +60,7 @@ typedef struct {
          time_t update;
 } Payload;
  
-Payload r45, r71, r95;
+Payload r45, r87, r95;
 
 
 // Setup for GPIO 22 CE and CE0 CSN with SPI Speed @ 8Mhz
@@ -262,7 +262,7 @@ void loop() {
     if (nodeID>44) y_log_message(Y_LOG_LEVEL_DEBUG, "Receiving from node: %d", nodeID); 
 
     if ((len>0) && (nodeID==45)) decodeMsgPayload(45, &r45);
-    if ((len>0) && (nodeID==71)) decodeMsgPayload(71, &r71);
+    if ((len>0) && (nodeID==87)) decodeMsgPayload(87, &r87);
     if ((len>0) && (nodeID==95)) decodeMsgPayload(95, &r95);
 
     b[len] = 0;
@@ -359,8 +359,8 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
 
   if (atoi(node)==45) {
     rx = &r45; 
-  } else if (atoi(node)==71) {
-    rx = &r71; 
+  } else if (atoi(node)==87) {
+    rx = &r87; 
   } else if (atoi(node)==95) {
     rx = &r95;   
   } else {
