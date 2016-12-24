@@ -1,4 +1,5 @@
-lib/
 .*
 .o
 .so
+._.DS_Store
+
