@@ -395,10 +395,10 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
     return U_OK;
   }
 
-  json_object_set_new(response->json_body, "Temp", json_real(rx->temp/100.0));
+  json_object_set_new(response->json_body, "temperature", json_real(rx->temp/100.0));
   json_object_set_new(response->json_body, "Lux", json_integer(rx->lux));
   json_object_set_new(response->json_body, "Tx_millivolts", json_real(rx->supplyV/1000.0));
-  json_object_set_new(response->json_body, "Soil_humidity", json_integer(rx->soil_humidity));
+  json_object_set_new(response->json_body, "humidity", json_integer(rx->soil_humidity));
   json_object_set_new(response->json_body, "Solar_volts", json_real(rx->voltage/1000.0));  
   json_object_set_new(response->json_body, "Relay_status", json_integer(rx->relay));
 

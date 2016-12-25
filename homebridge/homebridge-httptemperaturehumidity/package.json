@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "homebridge-httptemperaturehumidity",
+        "scope": null,
+        "escapedName": "homebridge-httptemperaturehumidity",
+        "name": "homebridge-httptemperaturehumidity",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/usr/lib/node_modules/homebridge"
+    ]
+  ],
+  "_from": "homebridge-httptemperaturehumidity@latest",
+  "_id": "homebridge-httptemperaturehumidity@0.0.15",
+  "_inCache": true,
+  "_location": "/homebridge-httptemperaturehumidity",
+  "_nodeVersion": "7.2.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/homebridge-httptemperaturehumidity-0.0.15.tgz_1481936409554_0.6236810488626361"
+  },
+  "_npmUser": {
+    "name": "lucacri",
+    "email": "lucacri.fuffa@gmail.com"
+  },
+  "_npmVersion": "4.0.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "homebridge-httptemperaturehumidity",
+    "scope": null,
+    "escapedName": "homebridge-httptemperaturehumidity",
+    "name": "homebridge-httptemperaturehumidity",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/homebridge-httptemperaturehumidity/-/homebridge-httptemperaturehumidity-0.0.15.tgz",
+  "_shasum": "c7ce47e8f22430ba08153ef58ece476053a5bfce",
+  "_shrinkwrap": null,
+  "_spec": "homebridge-httptemperaturehumidity",
+  "_where": "/usr/lib/node_modules/homebridge",
+  "author": {
+    "name": "Luca Critelli"
+  },
+  "bugs": {
+    "url": "https://github.com/lucacri/homebridge-http-temperature-humidity/issues"
+  },
+  "dependencies": {
+    "sync-request": "^2.1.0"
+  },
+  "description": "https plugin for homebridge",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "c7ce47e8f22430ba08153ef58ece476053a5bfce",
+    "tarball": "https://registry.npmjs.org/homebridge-httptemperaturehumidity/-/homebridge-httptemperaturehumidity-0.0.15.tgz"
+  },
+  "engines": {
+    "homebridge": ">=0.2.0",
+    "node": ">=0.12.0"
+  },
+  "gitHead": "8ce14ba1e2fb2a15b3697c1b24fbfd43afa4baf9",
+  "homepage": "https://github.com/lucacri/homebridge-http-temperature-humidity#readme",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "license": "ISC",
+  "maintainers": [
+    {
+      "name": "lucacri",
+      "email": "lucacri.fuffa@gmail.com"
+    }
+  ],
+  "name": "homebridge-httptemperaturehumidity",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lucacri/homebridge-http-temperature-humidity.git"
+  },
+  "scripts": {},
+  "version": "0.0.15"
+}
