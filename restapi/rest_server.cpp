@@ -433,6 +433,9 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
   y_log_message(Y_LOG_LEVEL_DEBUG, "get value from key node: %s", cmd);
 
   response->json_body = json_object();
+
+  ulfius_add_header_to_response(response, "content-type", "application/json");
+
   json_object_set_new(response->json_body, "update", json_string(s));
 
   if (cmd) {
