@@ -298,7 +298,7 @@ rrd archive
 }
 
 
-void calcMinMax( char **calcpr ) {
+int calcMinMax( char **calcpr ) {
   int pcount,result;
   
   int xsize, ysize;
@@ -367,7 +367,7 @@ int main (int argc, char **argv) {
   // Set the framework port number
   struct _u_instance instance;
   
-  y_init_logs("rest_server", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_INFO, NULL, "Starting rest_server");
+  y_init_logs("rest_server", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_DEBUG, NULL, "Starting rest_server");
   
   if (ulfius_init_instance(&instance, PORT, NULL) != U_OK) {
     y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
@@ -431,7 +431,7 @@ int main (int argc, char **argv) {
 int callback_get_node (const struct _u_request * request, struct _u_response * response, void * user_data) {
   struct _u_map map;
   //char url_params[100];
-  char **calcpr=NULL;
+  char *calcpr[32];
   const char *node, *cmd;
   Payload * rx;
 
@@ -489,9 +489,19 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
   json_object_set_new(response->json_body, "Solar_volts", json_real(rx->voltage/1000.0));  
   json_object_set_new(response->json_body, "Relay_status", json_integer(rx->relay));
 
-  if ((atoi(node)==71) && (calcMinMax(&calcpr)!=-1)) {
-    json_object_set_new(response->json_body, "Tmin", json_string(calcpr[0]));     
-    json_object_set_new(response->json_body, "Tmax", json_string(calcpr[1]));     
+  if ((atoi(node)==71) && (calcMinMax(calcpr)!=-1)) {
+
+  if (calcpr) {
+      uint i;
+      for (i=0; calcpr[i]; i++) {
+        printf("calcpr[%d]:  %s\n", i, calcpr[i]);
+        free(calcpr[i]);
+      }
+      free(calcpr);
+  }
+
+//    json_object_set_new(response->json_body, "Tmin", json_string(calcpr[0]));     
+//    json_object_set_new(response->json_body, "Tmax", json_string(calcpr[1]));     
   };
 
   response->status = 200;
