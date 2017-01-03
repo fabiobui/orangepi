@@ -345,6 +345,7 @@ int main (int argc, char **argv) {
   }
   
   u_map_put(instance.default_headers, "Access-Control-Allow-Origin", "*");
+  u_map_put(instance.default_headers, "content-type", "application/json");
   
   // Maximum body size sent by the client is 1 Kb
   instance.max_post_body_size = 1024;
