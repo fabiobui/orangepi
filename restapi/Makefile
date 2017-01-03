@@ -16,9 +16,10 @@ LIBSUNXI_LOCATION=../lib/librf24-sunxi/lib
 LIBSUNXI_LOCATION_SRC=../lib/librf24-sunxi/src
 LIBYDER_LOCATION=../lib/ulfius/lib/yder/src
 CC=g++
-CFLAGS=-c -Wall -I$(LIBYDER_LOCATION) -I$(LIBSUNXI_LOCATION_SRC) -D_REENTRANT $(ADDITIONALFLAGS)
+ADDITIONALFLAGS=-Wno-write-strings
+CFLAGS=-c -Wall -I$(LIBYDER_LOCATION) -I$(LIBSUNXI_LOCATION_SRC) -D_REENTRANT $(ADDITIONALFLAGS) 
 ULFIUS_LOCATION=../lib/ulfius/src
-LIBS=-L$(LIBYDER_LOCATION) -lc -lulfius -lyder -ljansson -L$(ULFIUS_LOCATION) -L$(LIBSUNXI_LOCATION) -lrf24-sunxi
+LIBS=-L$(LIBYDER_LOCATION) -lc -lulfius -lyder -ljansson -L$(ULFIUS_LOCATION) -L$(LIBSUNXI_LOCATION) -lrf24-sunxi -lrrd
 
 
 all: rest_server

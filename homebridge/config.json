@@ -22,22 +22,9 @@
 
 "name": "Lampada Salotto",
 
-"on_url": "http://10.0.0.31:80/?on",
+"on_url": "http://192.168.0.15:8080/?on",
 
-"off_url": "http://10.0.0.31:80/?off",
-
-"http_method": "GET"
-
-},
-{
-
-"accessory": "Http",
-
-"name": "Lampada Cucina",
-
-"on_url": "http://10.0.0.25:8080/?on",
-
-"off_url": "http://10.0.0.25:8080/?off",
+"off_url": "http://192.168.0.15:8080/?off",
 
 "http_method": "GET"
 
@@ -45,7 +32,7 @@
 {
            "accessory": "HttpTemphum",
            "name": "Temperatura esterna",
-           "url": "http://192.168.0.6:8080/node/88",
+           "url": "http://localhost:8080/node/71",
            "sendimmediately": "",
            "http_method": "GET"
 }
@@ -53,5 +40,3 @@
 ]
 
 }
-
-

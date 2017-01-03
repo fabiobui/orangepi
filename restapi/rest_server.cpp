@@ -23,6 +23,7 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 #include "printf.h"
+#include <rrd.h> 
  
 
 extern "C" {
@@ -45,6 +46,7 @@ const int max_payload_size = 32;
 const int payload_size_increments_by = 1;
 int next_payload_size = min_payload_size;
 char b[max_payload_size+1]; // +1 to allow room for a terminating NULL char
+unsigned long started_time_at;
 
 bool sending;
 int relay_status;
@@ -60,7 +62,7 @@ typedef struct {
          time_t update;
 } Payload;
  
-Payload r45, r88, r95;
+Payload r45, r71, r95;
 
 
 // Setup for GPIO 22 CE and CE0 CSN with SPI Speed @ 8Mhz
@@ -250,6 +252,51 @@ void sendOverRadio(int valore) {
   sleep(1);
 }
 
+int writeRrd(Payload * rx) {
+
+/*
+rrd archive
+  DS:temp:GAUGE:120:-20:60 
+  DS:lux:GAUGE:120:0:100 
+  DS:txmv:GAUGE:120:0:10 
+  DS:level:GAUGE:120:0:10 
+  DS:hum:GAUGE:120:0:1000 
+*/ 
+  int len, result;
+  char buffer[255]; 
+  char *updateparams[] = { 
+        "rrdupdate", 
+        "/home/fabio/rrdtool/nostradomus.rrd", 
+        buffer, 
+        NULL 
+  };
+
+  len = snprintf(NULL, 0, "%d:%4.2f:%d:%5.3f:%5.3f:%d", 
+    (int)rx->update, 
+    (rx->temp/100.0),
+    rx->lux,
+    (rx->supplyV/1000.0), 
+    (rx->voltage/1000.0),
+    rx->soil_humidity
+     ); 
+  
+  snprintf(buffer, (len+1), "%d:%4.2f:%d:%5.3f:%5.3f:%d", 
+    (int)rx->update, 
+    (rx->temp/100.0),
+    rx->lux,
+    (rx->supplyV/1000.0), 
+    (rx->voltage/1000.0),
+    rx->soil_humidity
+     ); 
+ 
+  rrd_clear_error();
+  result = rrd_update(3, updateparams);
+
+  y_log_message(Y_LOG_LEVEL_DEBUG, "Writing rrd with node %d, updateparams[2]: %s", rx->nodeID, updateparams[2]);
+  
+  return result;
+}
+
 
 void loop() {
     int len = readRF24();
@@ -262,7 +309,7 @@ void loop() {
     if (nodeID>44) y_log_message(Y_LOG_LEVEL_DEBUG, "Receiving from node: %d", nodeID); 
 
     if ((len>0) && (nodeID==45)) decodeMsgPayload(45, &r45);
-    if ((len>0) && (nodeID==88)) decodeMsgPayload(88, &r88);
+    if ((len>0) && (nodeID==71)) decodeMsgPayload(71, &r71);
     if ((len>0) && (nodeID==95)) decodeMsgPayload(95, &r95);
 
     b[len] = 0;
@@ -270,6 +317,10 @@ void loop() {
 
     // delay(1000);
     sleep(1);  
+    if (millis() - started_time_at > 60000 ) {
+      writeRrd(&r71);
+      started_time_at = millis();
+    }
 
 }
 
@@ -279,13 +330,14 @@ int main (int argc, char **argv) {
   radio.startListening();
   sending = false;
   relay_status = 0;
+  started_time_at = millis();
 
   int ret;
   
   // Set the framework port number
   struct _u_instance instance;
   
-  y_init_logs("rasp_endpoint", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_DEBUG, NULL, "Starting rasp_endpoint");
+  y_init_logs("rest_server", Y_LOG_MODE_SYSLOG, Y_LOG_LEVEL_ERROR, NULL, "Starting rest_server");
   
   if (ulfius_init_instance(&instance, PORT, NULL) != U_OK) {
     y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
@@ -359,8 +411,8 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
 
   if (atoi(node)==45) {
     rx = &r45; 
-  } else if (atoi(node)==88) {
-    rx = &r88; 
+  } else if (atoi(node)==71) {
+    rx = &r71; 
   } else if (atoi(node)==95) {
     rx = &r95;   
   } else {
