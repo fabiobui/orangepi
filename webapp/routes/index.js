@@ -3,9 +3,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  var newURL = req.get('host').replace (/\:[0-9]{1,4}.(.*)/, '$1');	
   res.render('index', { 
   	title: 'Express',
-  	ip_server: '151.66.34.180' });
+  	ip_server: newURL });
 });
 
 

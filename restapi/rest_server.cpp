@@ -59,6 +59,10 @@ typedef struct {
          int soil_humidity;
          int voltage;
          int relay;
+         float tmin;
+         float tmax;
+         int lmin;
+         int lmax;
          time_t update;
 } Payload;
  
@@ -298,21 +302,37 @@ rrd archive
 }
 
 
-int calcMinMax( char **calcpr ) {
+int calcMinMax(Payload * rx) {
+/*
+We need to fix these errors:
+
+(process:14530): GLib-GObject-CRITICAL **: g_object_get_qdata: assertion 'G_IS_OBJECT (object)' failed
+
+(process:14530): GLib-GObject-CRITICAL **: g_object_replace_qdata: assertion 'G_IS_OBJECT (object)' failed
+
+*/
+
   int pcount,result;
   
   int xsize, ysize;
   double ymin,ymax;
+  
+  char **calcpr=NULL;
 
   char *rrdargs[] = {
     "rrdgraph",
     "x",
     "-s", "end-12h",
     "DEF:temp=/home/fabio/rrdtool/nostradomus.rrd:temp:AVERAGE",
+    "DEF:lux=/home/fabio/rrdtool/nostradomus.rrd:lux:AVERAGE",     
     "VDEF:vmin=temp,MINIMUM",
     "VDEF:vmax=temp,MAXIMUM",
+    "VDEF:lmin=lux,MINIMUM",
+    "VDEF:lmax=lux,MAXIMUM",
     "PRINT:vmin:%lf",
     "PRINT:vmax:%lf",
+    "PRINT:lmin:%lf",
+    "PRINT:lmax:%lf",    
     NULL
   };
   
@@ -320,11 +340,23 @@ int calcMinMax( char **calcpr ) {
 
   rrd_clear_error();    
   result = rrd_graph(pcount, rrdargs, &calcpr, &xsize, &ysize, NULL, &ymin, &ymax);
-
-  y_log_message(Y_LOG_LEVEL_DEBUG, "Minima: %s, Massima: %s", calcpr[0], calcpr[1]);
-
+  
+  uint i=0;
+  if (calcpr) {
+    for (i=0; calcpr[i]; i++) {
+        if (i==0) rx->tmin = atof(calcpr[0]);
+        if (i==1) rx->tmax = atof(calcpr[1]);
+        if (i==2) rx->lmin = atoi(calcpr[2]);
+        if (i==3) rx->lmax = atoi(calcpr[3]); 
+        free(calcpr[i]);
+    }
+    free(calcpr);
+  }
+  if (i<3) {
+    y_log_message(Y_LOG_LEVEL_INFO, "Error no data for min & max !");
+    result = -1;
+  } 
   return result;
-
 }
 
 
@@ -367,7 +399,7 @@ int main (int argc, char **argv) {
   // Set the framework port number
   struct _u_instance instance;
   
-  y_init_logs("rest_server", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_DEBUG, NULL, "Starting rest_server");
+  y_init_logs("rest_server", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_INFO, NULL, "Starting rest_server");
   
   if (ulfius_init_instance(&instance, PORT, NULL) != U_OK) {
     y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
@@ -431,7 +463,6 @@ int main (int argc, char **argv) {
 int callback_get_node (const struct _u_request * request, struct _u_response * response, void * user_data) {
   struct _u_map map;
   //char url_params[100];
-  char *calcpr[32];
   const char *node, *cmd;
   Payload * rx;
 
@@ -466,7 +497,7 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
 
   response->json_body = json_object();
 
-  ulfius_add_header_to_response(response, "content-type", "application/json");
+//  ulfius_add_header_to_response(response, "content-type", "application/json");
 
   json_object_set_new(response->json_body, "update", json_string(s));
 
@@ -489,20 +520,21 @@ int callback_get_node (const struct _u_request * request, struct _u_response * r
   json_object_set_new(response->json_body, "Solar_volts", json_real(rx->voltage/1000.0));  
   json_object_set_new(response->json_body, "Relay_status", json_integer(rx->relay));
 
-  if ((atoi(node)==71) && (calcMinMax(calcpr)!=-1)) {
-
-  if (calcpr) {
-      uint i;
-      for (i=0; calcpr[i]; i++) {
-        printf("calcpr[%d]:  %s\n", i, calcpr[i]);
-        free(calcpr[i]);
-      }
-      free(calcpr);
-  }
-
-//    json_object_set_new(response->json_body, "Tmin", json_string(calcpr[0]));     
-//    json_object_set_new(response->json_body, "Tmax", json_string(calcpr[1]));     
+  if ((atoi(node)==71) && (calcMinMax(rx)!=-1)) {
+    json_object_set_new(response->json_body, "Tmin", json_real(rx->tmin));     
+    json_object_set_new(response->json_body, "Tmax", json_real(rx->tmax));    
+    json_object_set_new(response->json_body, "Lmin", json_integer(rx->lmin));     
+    json_object_set_new(response->json_body, "Lmax", json_integer(rx->lmax));       
   };
+
+// Da completare
+  if ((atoi(node)==45)) {
+    json_object_set_new(response->json_body, "Tmin", json_real(19.5));     
+    json_object_set_new(response->json_body, "Tmax", json_real(24.2));    
+    json_object_set_new(response->json_body, "Lmin", json_integer(0));     
+    json_object_set_new(response->json_body, "Lmax", json_integer(60));       
+  };
+
 
   response->status = 200;
   return U_OK;

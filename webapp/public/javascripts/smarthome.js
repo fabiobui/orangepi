@@ -38,12 +38,11 @@ function getArduino_OLD() {
 }
 
 
-function getArduino() {
-  // gestisce i dettagli istanze
+function getNode(node, id) {
   var ip = $("#ip_num").val();
 
   Display_Load();
-  $.getJSON("http://"+ip+":8080/node/71")
+  $.getJSON("http://"+ip+":8080/node/"+node)
     .fail(function() {
        Hide_Load();
        console.log( "error calling server" );
@@ -53,40 +52,33 @@ function getArduino() {
       Hide_Load();
       if (data) {
         console.log(data);
-        var temp_out = parseFloat(data.temperature);
-        $('#temp_out').empty();
-        $('#temp_out').append(temp_out.toFixed(1)+'°');
-        var lux_out = parseInt(data.Lux);
-        $('#lux_out').empty();
-        $('#lux_out').append(lux_out);         
-        $('#system_info').append("<p><small>Node 71: "+JSON.stringify(data)+"</small></p>");
+        var temp = parseFloat(data.temperature);
+        $('#temp'+id).empty();
+        $('#temp'+id).append(temp.toFixed(1)+'°');
+        var tmin = parseFloat(data.Tmin);
+        $('#tmin'+id).empty();
+        $('#tmin'+id).append(tmin.toFixed(1)+'°');
+        var tmax = parseFloat(data.Tmax);
+        $('#tmax'+id).empty();
+        $('#tmax'+id).append(tmax.toFixed(1)+'°');         
+        var lux = parseInt(data.Lux);
+        $('#lux'+id).empty();
+        $('#lux'+id).append(lux);  
+        var lmin = parseInt(data.Lmin);
+        $('#lmin'+id).empty();
+        $('#lmin'+id).append(lmin);
+        var lmax = parseInt(data.Lmax);
+        $('#lmax'+id).empty();
+        $('#lmax'+id).append(lmax);                            
+        $('#system_info').append("<p><small>Node "+node+": "+JSON.stringify(data)+"</small></p>");
       }
-  });
+  });  
+}
 
-
-  Display_Load();
-  $.getJSON("http://"+ip+":8080/node/45")
-    .fail(function() {
-       Hide_Load();
-       console.log( "error calling server" );
-       $('#system_info').append("<p><small>Error calling server on node 45!</small></p>");
-    })
-   .done(function(data) {
-      Hide_Load();
-      if (data) {
-        console.log(data);
-        var temp_in = parseFloat(data.temperature);
-        $('#temp_in').empty();
-        $('#temp_in').append(temp_in.toFixed(1)+'°');
-        var lux_in = parseInt(data.Lux);
-        $('#lux_in').empty();
-        $('#lux_in').append(lux_in);         
-        $('#system_info').append("<p><small>Node 45: "+JSON.stringify(data)+"</small></p>");
-      }
-  });
-
-
-
+function getArduino() {
+  // gestisce i dettagli istanze
+  getNode(71, "_out");
+  getNode(45, "_in");
   return true;      
 }
 
