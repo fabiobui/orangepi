@@ -40,26 +40,53 @@ function getArduino_OLD() {
 
 function getArduino() {
   // gestisce i dettagli istanze
-  Display_Load();
   var ip = $("#ip_num").val();
-  $.ajax({
-    url: "http://"+ip+":8080/node/71",
-    type: "GET",
-    async: false,
-    cache: false,
-    timeout: 30000,
-    contentType: "application/json",
-    dataType: 'jsonp',
-    success: function(data) {
-            Hide_Load();
-    },
-    error: function (xhr, ajaxOptions, thrownError) {
-        Hide_Load();
-        console.log(xhr.status);
-        console.log(thrownError);
-        $('#system_info').append("<p><small>Error calling server!</small></p>");
-    }
+
+  Display_Load();
+  $.getJSON("http://"+ip+":8080/node/71")
+    .fail(function() {
+       Hide_Load();
+       console.log( "error calling server" );
+       $('#system_info').append("<p><small>Error calling server on node 71!</small></p>");
+    })
+   .done(function(data) {
+      Hide_Load();
+      if (data) {
+        console.log(data);
+        var temp_out = parseFloat(data.temperature);
+        $('#temp_out').empty();
+        $('#temp_out').append(temp_out.toFixed(1)+'°');
+        var lux_out = parseInt(data.Lux);
+        $('#lux_out').empty();
+        $('#lux_out').append(lux_out);         
+        $('#system_info').append("<p><small>Node 71: "+JSON.stringify(data)+"</small></p>");
+      }
   });
+
+
+  Display_Load();
+  $.getJSON("http://"+ip+":8080/node/45")
+    .fail(function() {
+       Hide_Load();
+       console.log( "error calling server" );
+       $('#system_info').append("<p><small>Error calling server on node 45!</small></p>");
+    })
+   .done(function(data) {
+      Hide_Load();
+      if (data) {
+        console.log(data);
+        var temp_in = parseFloat(data.temperature);
+        $('#temp_in').empty();
+        $('#temp_in').append(temp_in.toFixed(1)+'°');
+        var lux_in = parseInt(data.Lux);
+        $('#lux_in').empty();
+        $('#lux_in').append(lux_in);         
+        $('#system_info').append("<p><small>Node 45: "+JSON.stringify(data)+"</small></p>");
+      }
+  });
+
+
+
   return true;      
 }
 
@@ -96,11 +123,6 @@ function jsonCallback_OLD(data) {
             }
 }
 
-function jsonCallback(data) {
-            if (data) {
-              console.log(data);
-            }
-}
 
 function postArduino(sensor, state, tmin, tmax) {
   // gestisce i dettagli istanze
