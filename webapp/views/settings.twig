@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+{% block title %}SmartHome System{% endblock %}
+{% block container %}
+<section>
+   <!-- /.main row -->
+    <div class="row">
+    <!-- /.panel-external info -->     
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-home fa-fw"></i> Main Settings
+                </div>
+                <div class="panel-body">
+
+                </div>    
+            </div>                      
+        </div>
+    <!-- /.system info panel -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-cog fa-fw"></i> System Info
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Server IP</label>
+                        <input type="text" class="form-control" placeholder="IP address" name="ip_num" id="ip_num" value="{{ip_server}}">
+                    </div>    
+                    <button id="loadArduino" type="button" class="btn btn-success">
+                    <i class="fa fa-refresh fa-fw"></i> Refresh        
+                    </button>
+                </div>
+            </div>       
+    <!-- /.notification panel -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                   <i class="fa fa-bell fa-fw"></i> Notifications Panel
+               </div>
+               <div class="panel-body">
+                    <div class="list-group">
+                        <div id="loading"></div>
+                        <div id="system_info"></div>
+                    </div>
+               </div>
+            </div>     
+    </div>  
+  <!-- /.main row -->
+</section>
+{% endblock %}
+{% block scripts %}
+   <script type="text/javascript">
+     getArduino();
+   </script>
+{% endblock %}

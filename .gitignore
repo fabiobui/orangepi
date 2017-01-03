@@ -1,4 +1,46 @@
-.o
-.so
+#other staff
+._*
+.bash_history
+.bash_logout
+.bashrc
+.profile
 ._.DS_Store
 .DS_Store
+*.tar
+*.gz
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.so
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+

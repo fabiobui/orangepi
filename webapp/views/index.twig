@@ -1,0 +1,262 @@
+{% extends "base.twig" %}
+{% block title %}SmartHome System{% endblock %}
+{% block container %}
+<section>
+   <!-- /.main row -->
+    <div class="row">
+    <!-- /.panel-external info -->     
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link fa-fw"></i> External info
+                </div>
+                <div class="panel-body">
+                  <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-adjust"></i> Light
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">22</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge" id="lux_out">&nbsp;</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">95</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                  </div>
+                 </div>
+                </div>
+                <div class="panel-body">
+                  <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-tint"></i> Humidity
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div><span class="huge">30</span>%</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div><span class="huge" id="hum_out">&nbsp;</span>%</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                    <div><span class="huge">90</span>%</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                  </div>
+                 </div>
+                </div>
+                 <div class="panel-body">
+                  <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-ellipsis-v"></i> Temperature
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">18°</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge" id="temp_out">&nbsp;</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">22°</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                 </div>
+                 </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                  <i class="fa fa-home fa-fw"></i> Internal info
+              </div>
+              <div class="panel-body">
+                  <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-adjust"></i> Light
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">2</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge" id="lux_in">&nbsp;</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">90</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                 </div>
+                 </div>              
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-ellipsis-v"></i> Temperature
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">18°</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge" id="temp_in">&nbsp;</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">22°</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                 </div>
+                </div>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                      <i class="fa fa-cloud"></i> Pressure
+                  </div>
+                  <div class="panel-body">
+                     <div class="row"> 
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">900</div>
+                                     <div>Min</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-green">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge" id="mbar_in">&nbsp;</div>
+                                     <div>Actual</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-lg-3 col-md-6">
+                             <div class="panel panel-red">
+                                 <div class="panel-heading text-center">
+                                     <div class="huge">1020</div>
+                                     <div>Max</div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>   
+                 </div>
+                </div>
+            </div>
+            </div>                        
+          </div>
+    <!-- /.system info panel -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-cog fa-fw"></i> System Info
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Server IP</label>
+                        <input type="text" class="form-control" placeholder="IP address" name="ip_num" id="ip_num" value="{{ip_server}}">
+                    </div>    
+                    <button id="loadArduino" type="button" class="btn btn-success">
+                    <i class="fa fa-refresh fa-fw"></i> Refresh        
+                    </button>
+                </div>
+            </div>       
+    <!-- /.notification panel -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                   <i class="fa fa-bell fa-fw"></i> Notifications Panel
+               </div>
+               <div class="panel-body">
+                    <div class="list-group">
+                        <div id="loading"></div>
+                        <div id="system_info"></div>
+                    </div>
+               </div>
+            </div>     
+    </div>  
+  <!-- /.main row -->
+</section>
+{% endblock %}
+{% block scripts %}
+   <script type="text/javascript">
+     getArduino();
+   </script>
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends "base.twig" %}
+{% block title %}SmartHome System{% endblock %}
+{% block container %}
+<section>
+   <!-- /.main row -->
+    <div class="row">
+    <!-- /.panel-external info -->     
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-home fa-fw"></i> Internal sensors
+                </div>
+                <div class="panel-body">
+                    <div class="row show-grid">
+                        <div class="col-lg-6">Main switch</div>
+                        <div class="col-lg-6">
+                            <input name="sw-main" type="checkbox" checked data-indeterminate="true">
+                        </div>
+                    </div>                   
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <i class="fa fa-fire"></i>  Heater
+                        </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                      <div class="panel-body"> 
+                      <div class="row">
+                        <div class="col-lg-8">                   
+                          <div class="row show-grid">
+                        <div class="col-lg-6">Fan switch</div>
+                        <div class="col-lg-6">
+                            <input name="sw-fan" type="checkbox" checked data-indeterminate="true">
+                        </div>
+                          </div>
+                          <div class="row show-grid">
+                        <div class="col-lg-6">Season switch</div>
+                        <div class="col-lg-6">
+                            <input name="sw-season" type="checkbox" data-label-text="Summer" checked data-indeterminate="true">
+                        </div>
+                          </div>
+                          <div class="row show-grid">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>T. Min.</label>
+                                <input type="text" class="form-control" placeholder="Min" name="t_min" id="t_min">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>T. Max.</label>
+                                <input type="text" class="form-control" placeholder="Max" name="t_max" id="t_max">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                               <br>
+                               <button id="setTemp" name="setTemp" type="button" class="btn btn-success">
+                               <i class="fa fa-bolt fa-fw"></i> Set        
+                               </button>
+                            </div>
+                        </div>                        
+                        </div>
+                        </div>  
+                        <div class="col-lg-4">
+                            <div class="panel panel-green">
+                               <div class="text-center"><h4>Temperature</h4></div>
+                               <div class="panel-heading text-center">
+                                   <div class="huge" id="temp_in">&nbsp;</div>
+                                   <div>Actual</div>
+                               </div>
+                           </div>
+                        </div>  
+                      </div>
+                    </div>
+                    </div>                                
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <i class="fa fa-arrows-v"></i>  Curtain
+                        </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-lg-4">
+                              <div class="form-group">
+                               <button id="curtUp" name="curtUp" type="button" class="btn btn-success btn-lg btn-block">
+                               <i class="fa fa-arrow-up"></i>&nbsp;&nbsp;Up&nbsp;&nbsp;        
+                               </button>
+                              </div>
+                              <div class="form-group">
+                               <button id="curtStop" name="curtStop" type="button" class="btn btn-success btn-lg btn-block">
+                               <i class="fa fa-arrows"></i>&nbsp;Stop&nbsp;        
+                               </button>
+                              </div>
+                              <div class="form-group">
+                               <button id="curtDown" name="curtDown" type="button" class="btn btn-success btn-lg btn-block">
+                               <i class="fa fa-arrow-down"></i>&nbsp;Down&nbsp;        
+                               </button>
+                              </div>
+                          </div>
+                          <div class="col-lg-4" align="center">
+                              <label>Curtain switch</label><br/>
+                              <input name="sw-curtain" type="checkbox" data-label-text="Auto" checked data-indeterminate="true">
+                              <br/><br/>
+                                <label>Lux</label>
+                                <div class="form-group input-group">
+                                    <input type="text" class="form-control" name="lux" id="lux">
+                                    <span class="input-group-btn">
+                                        <button id="setCurtLux" name="setCurtLux" class="btn btn-success" type="button"><i class="fa fa-bolt"></i>&nbsp;Set
+                                        </button>
+                                    </span>
+                                </div>
+                          </div>  
+                          <div class="col-lg-4">
+                            <div class="panel panel-green">
+                               <div class="text-center"><h4>Ambient Light</h4></div>
+                               <div class="panel-heading text-center">
+                                   <div class="huge" id="lux_in">&nbsp;</div>
+                                   <div>Actual</div>
+                               </div>
+                           </div>
+                          </div>    
+                        </div>
+                      </div>
+                    </div>                                
+                    </div>
+                </div>    
+            </div>                      
+        </div>
+    <!-- /.system info panel -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-cog fa-fw"></i> System Info
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Server IP</label>
+                        <input type="text" class="form-control" placeholder="IP address" name="ip_num" id="ip_num" value="{{ip_server}}">
+                    </div>    
+                    <button id="loadArduino" type="button" class="btn btn-success">
+                    <i class="fa fa-refresh fa-fw"></i> Refresh        
+                    </button>
+                </div>
+            </div>       
+    <!-- /.notification panel -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                   <i class="fa fa-bell fa-fw"></i> Notifications Panel
+               </div>
+               <div class="panel-body">
+                    <div class="list-group">
+                        <div id="loading"></div>
+                        <div id="system_info"></div>
+                    </div>
+               </div>
+            </div>     
+    </div>  
+  <!-- /.main row -->
+</section>
+{% endblock %}
+{% block scripts %}
+   <script type="text/javascript">
+     getArduino();
+   </script>
+{% endblock %}
