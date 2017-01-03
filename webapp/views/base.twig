@@ -34,8 +34,6 @@
 
 </head>
 
-<body class="{{ }}">
-
 <body>
 
     <div id="wrapper">
@@ -46,10 +44,10 @@
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li class="{{  }}"><a href="/"><i class="fa fa-dashboard fa-fw fa-2x"></i> Dashboard</a></li>
-                <li {{ (app.request.attributes.get('_route') == 'sensors') ? ' class="active"' }}><a href="/sensors"><i class="fa fa-tasks fa-fw fa-2x"></i> Sensors</a></li> 
-                  <li class="{{ (app.request.attributes.get('_route') == '/settings') ? 'active' : '' }}"><a href="/logs"><i class="fa fa-table fa-fw fa-2x"></i> Logs</a></li>
-                <li class="{{  }}"><a href="/settings"><i class="fa fa-gear fa-fw fa-2x"></i> Settings</a></li>                                     
+                <li class="{{ (title == 'Express') ? 'active' : '' }}"><a href="/"><i class="fa fa-dashboard fa-fw fa-2x"></i> Dashboard</a></li>
+                <li class="{{ (title == 'Sensors') ? 'active' : '' }}"><a href="/sensors"><i class="fa fa-tasks fa-fw fa-2x"></i> Sensors</a></li> 
+                  <li class="{{ (title == 'Logs') ? 'active' : '' }}" ><a href="/logs"><i class="fa fa-table fa-fw fa-2x"></i> Logs</a></li>
+                <li class="{{ (title == 'Settings') ? 'active' : '' }}"><a href="/settings"><i class="fa fa-gear fa-fw fa-2x"></i> Settings</a></li>                                     
                 <!-- /.dropdown -->
             </ul>
             <ul class="nav navbar-top-links navbar-right">    
@@ -76,9 +74,6 @@
     </nav>
 
     <!-- Page Content -->
-        <p>Request method: {{ app.request.method }}</p>
-    <p>Application Environment: {{ app.environment }}</p>
-    <p>Route {{ app.request.baseUrl }}</p>
     <div id="page-wrapper">    
     {% block content %}
         <div class="container">
