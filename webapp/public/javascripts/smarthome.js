@@ -11,7 +11,7 @@ function Hide_Load()
   $("#loading").fadeOut('slow');
 };
 
-function getArduino() {
+function getArduino_OLD() {
   // gestisce i dettagli istanze
   Display_Load();
   var ip = $("#ip_num").val();
@@ -37,7 +37,34 @@ function getArduino() {
   return true;      
 }
 
-function jsonCallback(data) {
+
+function getArduino() {
+  // gestisce i dettagli istanze
+  Display_Load();
+  var ip = $("#ip_num").val();
+  $.ajax({
+    url: "http://"+ip+":8080/node/71",
+    type: "GET",
+    async: false,
+    cache: false,
+    timeout: 30000,
+    contentType: "application/json",
+    dataType: 'jsonp',
+    success: function(data) {
+            Hide_Load();
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+        Hide_Load();
+        console.log(xhr.status);
+        console.log(thrownError);
+        $('#system_info').append("<p><small>Error calling server!</small></p>");
+    }
+  });
+  return true;      
+}
+
+
+function jsonCallback_OLD(data) {
             if (data) {
               console.log(data);
               var temp_in = parseFloat(data.T);
@@ -69,6 +96,11 @@ function jsonCallback(data) {
             }
 }
 
+function jsonCallback(data) {
+            if (data) {
+              console.log(data);
+            }
+}
 
 function postArduino(sensor, state, tmin, tmax) {
   // gestisce i dettagli istanze
