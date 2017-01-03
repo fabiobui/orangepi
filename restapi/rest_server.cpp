@@ -292,7 +292,7 @@ rrd archive
   rrd_clear_error();
   result = rrd_update(3, updateparams);
 
-  y_log_message(Y_LOG_LEVEL_DEBUG, "Writing rrd with node %d, updateparams[2]: %s", rx->nodeID, updateparams[2]);
+  y_log_message(Y_LOG_LEVEL_INFO, "Writing rrd with node %d, updateparams[2]: %s", rx->nodeID, updateparams[2]);
   
   return result;
 }
@@ -337,7 +337,7 @@ int main (int argc, char **argv) {
   // Set the framework port number
   struct _u_instance instance;
   
-  y_init_logs("rest_server", Y_LOG_MODE_SYSLOG, Y_LOG_LEVEL_ERROR, NULL, "Starting rest_server");
+  y_init_logs("rest_server", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_INFO, NULL, "Starting rest_server");
   
   if (ulfius_init_instance(&instance, PORT, NULL) != U_OK) {
     y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
@@ -362,7 +362,7 @@ int main (int argc, char **argv) {
   ret = ulfius_start_framework(&instance);
   
   if (ret == U_OK) {
-    y_log_message(Y_LOG_LEVEL_DEBUG, "Start %sframework on port %d", ((argc == 4 && strcmp("-secure", argv[1]) == 0)?"secure ":""), instance.port);
+    y_log_message(Y_LOG_LEVEL_INFO, "Start %sframework on port %d", ((argc == 4 && strcmp("-secure", argv[1]) == 0)?"secure ":""), instance.port);
     
     // Wait for the user to press <enter> on the console to quit the application
     //getchar();
@@ -379,9 +379,9 @@ int main (int argc, char **argv) {
       }
     } 
   } else {
-    y_log_message(Y_LOG_LEVEL_DEBUG, "Error starting framework");
+    y_log_message(Y_LOG_LEVEL_ERROR, "Error starting framework");
   }
-  y_log_message(Y_LOG_LEVEL_DEBUG, "End framework");
+  y_log_message(Y_LOG_LEVEL_INFO, "End framework");
   
   
   ulfius_stop_framework(&instance);
