@@ -50,6 +50,7 @@ unsigned long started_time_at;
 
 bool sending;
 int relay_status;
+int timeoutCount;
 
 typedef struct {
          uint8_t nodeID;  // nodeID
@@ -144,16 +145,14 @@ int print_map(char to_return[100], const struct _u_map * map) {
 void printMsg(int len) {
       uint8_t nodeID = (b[0] & 0xff); 
       // Spew it
-      printf("Got response size=%i \n\r",len);
-      printf("Received a packet:\n");
-      printf("From Node: %d \n", nodeID);
-      printf("Temp: %d \n", decodeMsg(1));
-      printf("Lux: %d \n", decodeMsg(3));
-      printf("TX Millivolts: %d \n", decodeMsg(2));       
-      printf("Soil humidity: %d \n", decodeMsg(4));       
-      printf("Battery level: %d \n", decodeMsg(5));  
-      printf("Relay status: %d \n", decodeMsg(6));           
-      printf("--------------------\n");
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Got response size=%i",len);
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Received a packet from Node: %d", nodeID);
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Temp: %d", decodeMsg(1));
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Lux: %d", decodeMsg(3));
+      y_log_message(Y_LOG_LEVEL_DEBUG, "TX Millivolts: %d", decodeMsg(2));       
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Soil humidity: %d", decodeMsg(4));       
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Battery level: %d", decodeMsg(5));  
+      y_log_message(Y_LOG_LEVEL_DEBUG, "Relay status: %d", decodeMsg(6)); 
 }
 
 void decodeMsgPayload(uint8_t node, Payload *rx) {
@@ -199,7 +198,7 @@ int readRF24() {
   // Describe the results
   if ( timeout )
   {
-     printf("Failed, response timed out.\n");
+     y_log_message(Y_LOG_LEVEL_ERROR, "Timeout receiving RF24"); 
      return -1;
   }
   else
@@ -362,6 +361,7 @@ We need to fix these errors:
 
 void loop() {
     int len = readRF24();
+    if (len==-1) timeoutCount++;
     char bb[max_payload_size+1] = {0};
     //printMsg(len);
 
@@ -393,6 +393,7 @@ int main (int argc, char **argv) {
   sending = false;
   relay_status = 0;
   started_time_at = millis();
+  timeoutCount = 0;
 
   int ret;
   
@@ -438,7 +439,15 @@ int main (int argc, char **argv) {
          sendOverRadio(3333);
          relay_status = 0;
       } else {  
-        if (!sending) loop();
+        if (!sending) {
+          if (timeoutCount>5) {
+            timeoutCount = 0;
+            radio.stopListening(); 
+            setupRF24(0xF0F0F0F0E2LL, 0xF0F0F0F0E3LL); 
+            radio.startListening();          
+          }
+          loop();
+        }
       }
     } 
   } else {
