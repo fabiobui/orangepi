@@ -30,7 +30,7 @@ void error( char *msg ) {
     exit(1);
 }
 
-#define RF_SETUP 0x26 
+//#define RF_SETUP 0x26 
 
 using namespace std;
 
@@ -83,9 +83,9 @@ return ((uint32_t) (ms - epoch ));
 
 
 int decodeMsg(int pos) {
-  int p;
-  p = pos*2-1; 
-  return ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  int p = pos*2-1; 
+  short res = ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  return res;
 }
 
 

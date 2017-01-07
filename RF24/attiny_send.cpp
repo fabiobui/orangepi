@@ -23,8 +23,6 @@
 #include "printf.h"
  
 
-#define RF_SETUP 0x26 
-
 using namespace std;
 
 
@@ -84,9 +82,9 @@ int encodeMsg(int pos, int valore){
 
 
 int decodeMsg(int pos) {
-  int p;
-  p = pos*2-1; 
-  return ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  int p = pos*2-1; 
+  short res = ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  return res;
 }
 
 void printMsg(int nodeID, int len) {

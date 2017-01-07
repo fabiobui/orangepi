@@ -98,10 +98,11 @@ ms = (now.tv_sec * 1000000 + now.tv_usec) / 1000 ;
 return ((uint32_t) (ms - epoch ));
 }
 
+
 int decodeMsg(int pos) {
-  int p;
-  p = pos*2-1; 
-  return ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  int p = pos*2-1; 
+  short res = ((b[p+1] & 0xff) << 8) | ((b[p] & 0xff));
+  return res;
 }
 
 int decodeMsgChar(char *buf, int pos) {
@@ -321,7 +322,7 @@ We need to fix these errors:
   char *rrdargs[] = {
     "rrdgraph",
     "x",
-    "-s", "end-12h",
+    "-s", "end-18h",
     "DEF:temp=/home/fabio/rrdtool/nostradomus.rrd:temp:AVERAGE",
     "DEF:lux=/home/fabio/rrdtool/nostradomus.rrd:lux:AVERAGE",     
     "VDEF:vmin=temp,MINIMUM",
