@@ -82,5 +82,16 @@ After that changes:
 
 ```shell
 $ apt-get update
-$ apt-get install rrdtool=1.6.0
+$ apt-get install -t testing rrdtool
 ```
+
+### Compiling & testing ###
+
+```shell
+$ cd orangepi/RF24
+$ make receive
+$ ./attiny_receive xx
+```
+
+where xx is the nodeId in Arduino Tiny sketch
+
