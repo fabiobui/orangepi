@@ -60,5 +60,27 @@ $ git submodule update --init
 $ make
 $ sudo make install
 ```
+### Install rrdtool versione 1.6 or greater ###
 
+Since rrdtool v.1.4.8 debian jessie package dosen't work whit rest_server application, you need install last version avaible coming from testing repos.
+Add testing repos to /etc/apt/sources.list:
 
+```shell
+deb     http://ftp.de.debian.org/debian/    testing main contrib non-free
+deb-src http://ftp.de.debian.org/debian/    testing main contrib non-free
+
+deb     http://security.debian.org/         testing/updates  main contrib non-free
+```
+
+Create the following file /etc/apt/99defaultrelease with these content:
+
+```shell
+APT::Default-Release "stable";
+```
+
+After that changes:
+
+```shell
+	apt-get update
+	apt-get install rrdtool -v 1.6.0
+```
