@@ -16,6 +16,10 @@ To install the external dependencies, for Debian based distributions (Debian, Ub
 
 Download the two libraries:
 
+```shell
+	cd orangepi/lib
+```
+
 1) librf24-sunxi
 ```shell
 	git clone https://github.com/bearpawmaxim/librf24-sunxi.git
@@ -39,5 +43,22 @@ Edit Makefile and add ${PREFIX} at line 39 so that:
 
 ### Make & install the libraries ###
 
+Compiling librf24-sunxi
+
+```shell
+	cd librf24-sunxi
+	make
+	make install
+```
+
+Download Ulfius source code from Github, get the submodules, compile and install:
+
+```shell
+$ git clone https://github.com/babelouest/ulfius.git
+$ cd ulfius/
+$ git submodule update --init
+$ make
+$ sudo make install
+```
 
 
