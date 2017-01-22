@@ -11,23 +11,23 @@ Follow the instructions below.
 To install the external dependencies, for Debian based distributions (Debian, Ubuntu, Raspbian, etc.), run as root:
 
 ```shell
-# apt-get install libmicrohttpd-dev libjansson-dev libcurl4-gnutls-dev
+$ apt-get install libmicrohttpd-dev libjansson-dev libcurl4-gnutls-dev
 ```
 
 Download the two libraries:
 
 ```shell
-	cd orangepi/lib
+$ cd orangepi/lib
 ```
 
 1) librf24-sunxi
 ```shell
-	git clone https://github.com/bearpawmaxim/librf24-sunxi.git
+$ git clone https://github.com/bearpawmaxim/librf24-sunxi.git
 ```
 
 2) ulfius
 ```shell
-	git clone https://github.com/babelouest/ulfius.git
+$ git clone https://github.com/babelouest/ulfius.git
 ```	
 
 
@@ -46,9 +46,9 @@ Edit Makefile and add ${PREFIX} at line 39 so that:
 Compiling librf24-sunxi
 
 ```shell
-	cd librf24-sunxi
-	make
-	make install
+$ cd librf24-sunxi
+$ make
+$ make install
 ```
 
 Download Ulfius source code from Github, get the submodules, compile and install:
@@ -81,6 +81,6 @@ APT::Default-Release "stable";
 After that changes:
 
 ```shell
-	apt-get update
-	apt-get install rrdtool -v 1.6.0
+$ apt-get update
+$ apt-get install rrdtool=1.6.0
 ```
