@@ -82,7 +82,7 @@ After that changes:
 
 ```shell
 $ apt-get update
-$ apt-get install -t testing rrdtool
+$ apt-get install -t testing rrdtool librrd-dev
 ```
 
 ### Compiling & testing ###
